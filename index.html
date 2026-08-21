@@ -195,13 +195,27 @@
   .blueprint{
     position:relative;
     aspect-ratio:1/1;
-    border:1px solid var(--navy-line);
-    border-radius:4px;
-    background:rgba(255,255,255,0.015);
+    border:1px solid rgba(255,255,255,0.16);
+    border-radius:14px;
+    background:linear-gradient(135deg, rgba(255,255,255,0.10), rgba(255,255,255,0.02));
+    backdrop-filter:blur(16px) saturate(160%);
+    -webkit-backdrop-filter:blur(16px) saturate(160%);
     transform-style:preserve-3d;
     will-change:transform;
-    box-shadow:0 30px 60px -20px rgba(0,0,0,0.5);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.25),
+      inset 0 0 40px rgba(255,255,255,0.03),
+      0 30px 60px -20px rgba(0,0,0,0.5);
     transition:box-shadow .4s ease;
+    overflow:hidden;
+  }
+  .blueprint::before{
+    content:"";
+    position:absolute;
+    top:0;left:0;right:0;
+    height:45%;
+    background:linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0));
+    pointer-events:none;
   }
   .blueprint svg{width:100%;height:100%;display:block;}
   .bp-label{
@@ -871,6 +885,45 @@ ${details}`
       targetRotX = 0;
       targetRotY = 0;
     });
+
+    // touch-drag tilt for mobile (no mousemove on touch devices)
+    heroSection.addEventListener('touchmove', (e) => {
+      if(!e.touches || !e.touches.length) return;
+      const touch = e.touches[0];
+      const rect = heroSection.getBoundingClientRect();
+      const px = (touch.clientX - rect.left) / rect.width;
+      const py = (touch.clientY - rect.top) / rect.height;
+      const nx = (px - 0.5) * 2;
+      const ny = (py - 0.5) * 2;
+      targetRotY = nx * 14;
+      targetRotX = -ny * 10;
+      hovering = true;
+    }, { passive: true });
+    heroSection.addEventListener('touchend', () => { hovering = false; }, { passive: true });
+
+    // phone-tilt (gyroscope) support — the mobile equivalent of mouse movement
+    let gyroActive = false;
+    function handleOrientation(e){
+      if(e.gamma === null || e.beta === null) return;
+      const gamma = Math.max(-25, Math.min(25, e.gamma));   // left/right lean
+      const beta = Math.max(30, Math.min(100, e.beta));     // forward/back lean, ~65deg = holding upright
+      targetRotY = gamma * 0.7;
+      targetRotX = -(beta - 65) * 0.35;
+      gyroActive = true;
+      hovering = true;
+    }
+    function enableGyro(){
+      if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function'){
+        DeviceOrientationEvent.requestPermission().then((state) => {
+          if(state === 'granted'){ window.addEventListener('deviceorientation', handleOrientation); }
+        }).catch(() => {});
+      } else if ('DeviceOrientationEvent' in window) {
+        window.addEventListener('deviceorientation', handleOrientation);
+      }
+    }
+    // iOS requires a user gesture before granting motion-sensor access
+    heroSection.addEventListener('touchstart', enableGyro, { once: true, passive: true });
+    enableGyro(); // no-op / silently ignored on platforms that don't need or support this
 
     function animate(t){
       // idle bob + gentle continuous rotation when not hovering
