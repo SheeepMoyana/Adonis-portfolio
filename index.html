@@ -11,23 +11,42 @@
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&display=swap" rel="stylesheet">
 <style>
+  /*
+    Note on typefaces: "Mograph" and "Balimo" are paid marketplace fonts
+    (Creative Fabrica / MyFonts) that can't be linked from a CDN, so this
+    swaps in free faces with the same character — Space Grotesk covers the
+    clean geometric-sans role those two were playing, and Bodoni Moda
+    supplies the "luxury" high-contrast serif for display type.
+  */
   :root{
-    --navy:#0F1B2D;
-    --navy-deep:#0A1420;
-    --navy-line:rgba(111,179,217,0.22);
-    --cyan:#6FB3D9;
-    --cyan-soft:#9CC9E3;
-    --paper:#F3EEE2;
-    --paper-dim:#EAE2CE;
-    --ink:#1B1B18;
-    --ink-soft:#6B6459;
-    --coral:#FF6A45;
-    --slate:#8CA0B3;
+    --ink:#0A0A0A;
+    --ink-deep:#000000;
+    --line:rgba(0,0,0,0.14);
+    --line-on-dark:rgba(255,255,255,0.18);
+    --white:#F5F4F1;
+    --white-dim:#E9E7E1;
+    --ink-soft:#5C5C58;
+    --grey:#9A9892;
+    --accent:#000000;
+    --btn-bg:#000000;
+    --btn-text:#F5F4F1;
     --mono:'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
-    --sans:'Manrope', system-ui, -apple-system, sans-serif;
+    --sans:'Space Grotesk', system-ui, -apple-system, sans-serif;
+    --serif:'Bodoni Moda', 'Times New Roman', serif;
     --radius:2px;
+
+    /* legacy aliases kept so the rest of the stylesheet below still resolves */
+    --navy:var(--ink-deep);
+    --navy-deep:#000000;
+    --navy-line:var(--line-on-dark);
+    --cyan:var(--white);
+    --cyan-soft:var(--white-dim);
+    --paper:var(--white);
+    --paper-dim:var(--white-dim);
+    --coral:var(--accent);
+    --slate:var(--grey);
   }
   *{margin:0;padding:0;box-sizing:border-box;}
   html{scroll-behavior:smooth;}
@@ -62,6 +81,7 @@
     opacity:0.5;
     display:inline-block;
   }
+  .on-navy{--btn-bg:#F5F4F1;--btn-text:#0A0A0A;}
   .on-navy .eyebrow{color:var(--cyan-soft);}
   .on-paper .eyebrow{color:var(--ink-soft);}
 
@@ -99,11 +119,11 @@
   }
   .btn:hover{transform:translateY(-2px);}
   .btn:hover::after{transform:translate(3px,-3px);}
-  .btn-primary{background:var(--coral);color:#fff;}
-  .btn-primary:hover{background:#ff7d5c;}
+  .btn-primary{background:var(--btn-bg);color:var(--btn-text);}
+  .btn-primary:hover{box-shadow:0 10px 24px rgba(0,0,0,0.22);}
   .btn-ghost-navy{border-color:rgba(255,255,255,0.28);color:#fff;}
   .btn-ghost-navy:hover{border-color:#fff;}
-  .btn-ghost-paper{border-color:rgba(27,27,24,0.25);color:var(--ink);}
+  .btn-ghost-paper{border-color:rgba(10,10,10,0.25);color:var(--ink);}
   .btn-ghost-paper:hover{border-color:var(--ink);}
 
   .tag{
@@ -119,7 +139,7 @@
   /* ---------- nav ---------- */
   header.nav{
     position:fixed;top:0;left:0;right:0;z-index:100;
-    background:rgba(15,27,45,0.88);
+    background:rgba(0,0,0,0.88);
     backdrop-filter:blur(10px);
     border-bottom:1px solid var(--navy-line);
   }
@@ -146,7 +166,7 @@
   }
   nav.links a.cta::after{content:"↗";display:inline-block;transition:transform .18s ease;}
   nav.links a.cta:hover::after{transform:translate(2px,-2px);}
-  nav.links a.cta:hover{border-color:var(--coral);color:var(--coral);}
+  nav.links a.cta:hover{border-color:#fff;background:#fff;color:#000;}
   .burger{display:none;background:none;border:none;color:#fff;font-size:22px;cursor:pointer;}
   @media(max-width:820px){
     nav.links{position:fixed;top:57px;left:0;right:0;background:var(--navy-deep);
@@ -176,15 +196,15 @@
   }
   @media(max-width:920px){.hero-grid{grid-template-columns:1fr;gap:64px;}}
   .hero-copy h1{
-    font-family:var(--sans);
-    font-weight:800;
-    font-size:clamp(38px,5.4vw,60px);
-    line-height:1.05;
-    letter-spacing:-0.02em;
+    font-family:var(--serif);
+    font-weight:500;
+    font-size:clamp(42px,6vw,68px);
+    line-height:1.04;
+    letter-spacing:-0.01em;
     margin:22px 0 22px;
   }
   .hero-copy h1 em{
-    font-style:normal;color:var(--cyan-soft);
+    font-style:italic;font-weight:400;
   }
   .hero-copy p.lead{
     font-size:17px;color:var(--slate);max-width:480px;margin-bottom:34px;
@@ -225,29 +245,22 @@
   .bp-label.tl{top:14px;left:16px;}
   .bp-label.br{bottom:14px;right:16px;text-align:right;}
 
-  /* ---------- credibility strip ---------- */
+  /* ---------- credibility strip (marquee) ---------- */
   .strip{
     background:var(--navy-deep);
     border-top:1px solid var(--navy-line);
     border-bottom:1px solid var(--navy-line);
-    padding:20px 0;
+    padding:16px 0;
   }
-  .strip .wrap{
-    display:flex;flex-wrap:wrap;gap:14px 40px;justify-content:space-between;
-  }
-  .strip-item{
-    font-family:var(--mono);font-size:12.5px;color:var(--slate);
-    display:flex;align-items:center;gap:9px;letter-spacing:0.02em;
-  }
-  .strip-item::before{content:"→";color:var(--coral);}
 
   /* ---------- generic section spacing ---------- */
   .section-pad{padding:100px 0;}
   @media(max-width:640px){.section-pad{padding:72px 0;}}
   .section-head{max-width:640px;margin-bottom:52px;}
   .section-head h2{
-    font-size:clamp(28px,3.6vw,40px);
-    font-weight:800;letter-spacing:-0.015em;line-height:1.15;
+    font-family:var(--serif);
+    font-size:clamp(30px,3.8vw,44px);
+    font-weight:500;letter-spacing:-0.005em;line-height:1.12;
     margin-top:14px;
   }
   .on-navy .section-head h2{color:#fff;}
@@ -255,7 +268,7 @@
   .on-navy .section-head p{color:var(--slate);}
 
   .divider{
-    border:none;border-top:1px dashed rgba(27,27,24,0.2);
+    border:none;border-top:1px dashed rgba(10,10,10,0.2);
     margin:0;
   }
   .on-navy .divider{border-top:1px dashed var(--navy-line);}
@@ -263,12 +276,13 @@
   /* ---------- services ---------- */
   #services{background:var(--paper);}
   .svc-grid{
-    display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
-    background:rgba(27,27,24,0.14);
-    border:1px solid rgba(27,27,24,0.14);
+    display:grid;grid-template-columns:repeat(5,1fr);gap:1px;
+    background:rgba(10,10,10,0.14);
+    border:1px solid rgba(10,10,10,0.14);
   }
-  @media(max-width:920px){.svc-grid{grid-template-columns:repeat(2,1fr);}}
-  @media(max-width:560px){.svc-grid{grid-template-columns:1fr;}}
+  @media(max-width:1100px){.svc-grid{grid-template-columns:repeat(3,1fr);}}
+  @media(max-width:760px){.svc-grid{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:480px){.svc-grid{grid-template-columns:1fr;}}
   .svc-card{
     background:var(--paper);
     padding:34px 26px;
@@ -279,11 +293,11 @@
   .svc-card:hover{
     background:var(--paper-dim);
     transform:translateY(-6px);
-    box-shadow:0 18px 32px rgba(15,27,45,0.10);
+    box-shadow:0 18px 32px rgba(0,0,0,0.10);
     z-index:1;
   }
   .svc-card:hover .svc-num{transform:translateX(3px);}
-  .svc-num{font-family:var(--mono);font-size:12px;color:var(--coral);display:inline-block;transition:transform .2s ease;}
+  .svc-num{font-family:var(--mono);font-size:12px;color:var(--ink-deep);display:inline-block;transition:transform .2s ease;}
   .svc-card h3{font-size:19px;font-weight:700;margin:14px 0 10px;}
   .svc-card p{font-size:14.5px;color:var(--ink-soft);}
 
@@ -301,7 +315,7 @@
   .work-list .work-row:last-child{border-bottom:1px solid var(--navy-line);}
   @media(max-width:800px){.work-row{grid-template-columns:1fr;gap:14px;}}
   .work-index{font-family:var(--mono);font-size:12px;color:var(--slate);}
-  .work-name{font-size:23px;font-weight:700;margin:8px 0 10px;}
+  .work-name{font-family:var(--serif);font-size:26px;font-weight:500;margin:8px 0 10px;}
   .work-site{font-family:var(--mono);font-size:12px;color:var(--cyan-soft);margin-bottom:4px;display:block;}
   .work-desc{color:var(--slate);font-size:14.5px;max-width:480px;}
   .work-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;}
@@ -315,16 +329,17 @@
     transition:border-color .15s ease, color .15s ease, transform .15s ease;
   }
   .work-link span{display:inline-block;transition:transform .18s ease;}
-  .work-link:hover{border-color:var(--coral);color:var(--coral);}
+  .work-link:hover{border-color:#fff;color:#fff;}
   .work-link:hover span{transform:translateX(4px);}
   @media(max-width:800px){.work-link{justify-self:start;}}
 
   /* ---------- pricing ---------- */
   #pricing{background:var(--paper);}
-  .price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
-  @media(max-width:900px){.price-grid{grid-template-columns:1fr;}}
+  .price-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;}
+  @media(max-width:1100px){.price-grid{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:600px){.price-grid{grid-template-columns:1fr;}}
   .price-card{
-    border:1px solid rgba(27,27,24,0.16);
+    border:1px solid rgba(10,10,10,0.16);
     padding:32px 28px;background:#fff;
     display:flex;flex-direction:column;
     position:relative;
@@ -332,20 +347,20 @@
   }
   .price-card:hover{
     transform:translateY(-8px);
-    box-shadow:0 22px 40px rgba(15,27,45,0.14);
-    border-color:rgba(27,27,24,0.28);
+    box-shadow:0 22px 40px rgba(0,0,0,0.14);
+    border-color:rgba(10,10,10,0.28);
   }
   .price-card.popular{border-color:var(--ink);animation:popularGlow 3s ease-in-out infinite;}
-  .price-card.popular:hover{animation-play-state:paused;box-shadow:0 22px 44px rgba(255,106,69,0.22);}
+  .price-card.popular:hover{animation-play-state:paused;box-shadow:0 22px 44px rgba(0,0,0,0.22);}
   @keyframes popularGlow{
-    0%,100%{box-shadow:0 0 0 0 rgba(255,106,69,0.16);}
-    50%{box-shadow:0 0 0 7px rgba(255,106,69,0);}
+    0%,100%{box-shadow:0 0 0 0 rgba(0,0,0,0.14);}
+    50%{box-shadow:0 0 0 7px rgba(0,0,0,0);}
   }
   .price-num{
     font-family:var(--mono);font-size:11px;letter-spacing:0.08em;
     color:var(--ink-soft);display:block;margin-bottom:12px;
   }
-  .price-card.popular .price-num{color:var(--coral);}
+  .price-card.popular .price-num{color:var(--ink-deep);}
   .popular-flag{
     position:absolute;top:-13px;left:28px;
     background:var(--ink);color:var(--paper);
@@ -360,10 +375,10 @@
   .price-card .range{font-size:13px;color:var(--ink-soft);margin-bottom:22px;}
   .price-card ul{margin-bottom:26px;flex-grow:1;}
   .price-card li{
-    font-size:14px;padding:9px 0;border-top:1px dashed rgba(27,27,24,0.15);
+    font-size:14px;padding:9px 0;border-top:1px dashed rgba(10,10,10,0.15);
     display:flex;gap:8px;
   }
-  .price-card li::before{content:"—";color:var(--coral);flex-shrink:0;}
+  .price-card li::before{content:"—";color:var(--ink-deep);flex-shrink:0;}
 
   /* ---------- process ---------- */
   #process{background:var(--navy-deep);color:#fff;}
@@ -371,15 +386,15 @@
   @media(max-width:800px){.proc-grid{grid-template-columns:1fr;}}
   .proc-item{transition:transform .2s ease;}
   .proc-item:hover{transform:translateY(-6px);}
-  .proc-item .n{font-family:var(--mono);font-size:13px;color:var(--coral);}
+  .proc-item .n{font-family:var(--mono);font-size:13px;color:#fff;}
   .proc-item h3{font-size:20px;font-weight:700;margin:12px 0 10px;}
   .proc-item p{color:var(--slate);font-size:14.5px;}
 
   /* ---------- faq ---------- */
   #faq{background:var(--paper);}
   .faq-list{max-width:760px;}
-  .faq-item{border-top:1px solid rgba(27,27,24,0.14);padding:22px 0;}
-  .faq-list .faq-item:last-child{border-bottom:1px solid rgba(27,27,24,0.14);}
+  .faq-item{border-top:1px solid rgba(10,10,10,0.14);padding:22px 0;}
+  .faq-list .faq-item:last-child{border-bottom:1px solid rgba(10,10,10,0.14);}
   .faq-item h3{font-size:16.5px;font-weight:700;margin-bottom:8px;}
   .faq-item p{color:var(--ink-soft);font-size:14.5px;}
 
@@ -393,7 +408,7 @@
     display:flex;align-items:center;gap:10px;
   }
   .contact-links a:hover{color:#fff;}
-  .contact-links a::before{content:"↳";color:var(--coral);}
+  .contact-links a::before{content:"↳";color:#fff;}
 
   form{display:flex;flex-direction:column;gap:14px;}
   .field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
@@ -428,6 +443,48 @@
   .reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease, transform .6s ease;}
   .reveal.in{opacity:1;transform:translateY(0);}
 
+  /* scroll progress */
+  #scrollbar{
+    position:fixed;top:0;left:0;height:2px;width:0%;
+    background:#808080;z-index:200;transition:width .08s linear;
+    mix-blend-mode:difference;
+    pointer-events:none;
+  }
+
+  /* heading curtain-reveal, driven by scroll position */
+  .curtain{overflow:hidden;}
+  .curtain .curtain-inner{
+    display:inline-block;
+    clip-path:inset(0 0 100% 0);
+    transform:translateY(38%);
+    transition:clip-path 1s cubic-bezier(.22,.68,0,1), transform 1s cubic-bezier(.22,.68,0,1);
+  }
+  .curtain.in .curtain-inner{
+    clip-path:inset(0 0 0% 0);
+    transform:translateY(0);
+  }
+
+  /* marquee strip */
+  .strip{overflow:hidden;}
+  .marquee-track{
+    display:flex;width:max-content;
+    animation:marquee 26s linear infinite;
+  }
+  .marquee-track span{
+    font-family:var(--serif);font-style:italic;font-weight:400;
+    font-size:20px;white-space:nowrap;padding:0 28px;color:var(--white);
+    display:inline-flex;align-items:center;gap:28px;
+  }
+  .marquee-track span::after{content:"—";font-style:normal;opacity:0.5;}
+  @keyframes marquee{
+    from{transform:translateX(0);}
+    to{transform:translateX(-50%);}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .marquee-track{animation:none;}
+    .curtain .curtain-inner{clip-path:inset(0 0 0% 0);transform:none;transition:none;}
+  }
+
   @media (prefers-reduced-motion: reduce){
     html{scroll-behavior:auto;}
     .reveal{opacity:1;transform:none;transition:none;}
@@ -436,6 +493,8 @@
 </style>
 </head>
 <body>
+
+<div id="scrollbar"></div>
 
 <header class="nav">
   <div class="nav-inner">
@@ -459,7 +518,7 @@
     <div class="hero-grid">
       <div class="hero-copy">
         <p class="eyebrow">WEB · BRAND · PRINT — CAPE TOWN</p>
-        <h1>Designed sharp. <em>Built to last.</em></h1>
+        <h1 class="curtain" id="heroHeadline"><span class="curtain-inner">Designed sharp. <em>Built to last.</em></span></h1>
         <p class="lead">Websites, brand identities and business cards with working QR codes for small businesses and students who want to look established from day one. Built by a Computer Science student who ships real projects.</p>
         <div class="hero-actions">
           <a href="#work" class="btn btn-primary">See the work</a>
@@ -485,7 +544,7 @@
           <text x="34" y="214" text-anchor="middle" fill="var(--cyan-soft)" font-family="IBM Plex Mono" font-size="10" transform="rotate(-90 34 214)">51mm</text>
 
           <!-- name lines on card -->
-          <line x1="82" y1="168" x2="190" y2="168" stroke="#F3EEE2" stroke-width="2" opacity="0.85"/>
+          <line x1="82" y1="168" x2="190" y2="168" stroke="#F5F4F1" stroke-width="2" opacity="0.85"/>
           <line x1="82" y1="184" x2="160" y2="184" stroke="var(--cyan)" stroke-width="1.2" opacity="0.6"/>
           <line x1="82" y1="198" x2="145" y2="198" stroke="var(--cyan)" stroke-width="1.2" opacity="0.6"/>
 
@@ -528,10 +587,13 @@
 </section>
 
 <div class="strip">
-  <div class="wrap">
-    <span class="strip-item">Computer Science, University of Cape Town</span>
-    <span class="strip-item">Live sites in South Africa &amp; Zimbabwe</span>
-    <span class="strip-item">Web, brand &amp; print — one point of contact</span>
+  <div class="marquee-track">
+    <span>Computer Science, University of Cape Town</span>
+    <span>Live sites in South Africa &amp; Zimbabwe</span>
+    <span>Web, brand &amp; print, one point of contact</span>
+    <span>Computer Science, University of Cape Town</span>
+    <span>Live sites in South Africa &amp; Zimbabwe</span>
+    <span>Web, brand &amp; print, one point of contact</span>
   </div>
 </div>
 
@@ -540,7 +602,7 @@
   <div class="wrap">
     <div class="section-head">
       <p class="eyebrow">What I build</p>
-      <h2>Built to make you look established.</h2>
+      <h2 class="curtain"><span class="curtain-inner">Built to make you look established.</span></h2>
       <p>From the site people land on to the card you hand them in person, everything designed to work as one system.</p>
     </div>
   </div>
@@ -566,6 +628,11 @@
         <h3>Design</h3>
         <p>Flyers, social media kits, posters and other print or digital collateral, designed to match the rest of your brand.</p>
       </div>
+      <div class="svc-card">
+        <span class="svc-num">05</span>
+        <h3>Web Apps</h3>
+        <p>Custom tools beyond a brochure site — customer portals or a CRM with multiple user logins, scoped, designed and deployed as working software.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -575,7 +642,7 @@
   <div class="wrap">
     <div class="section-head">
       <p class="eyebrow">Selected work</p>
-      <h2>Real businesses. Live sites.</h2>
+      <h2 class="curtain"><span class="curtain-inner">Real businesses. Live sites.</span></h2>
       <p>A few of the projects I've designed and shipped so far — more on the way. Tap through to see them live.</p>
     </div>
 
@@ -639,7 +706,7 @@
   <div class="wrap">
     <div class="section-head">
       <p class="eyebrow">Engagements</p>
-      <h2>Start small, or get the full identity.</h2>
+      <h2 class="curtain"><span class="curtain-inner">Start small, or get the full identity.</span></h2>
       <p>Every project is scoped to what you actually need, not a fixed package. Not sure where you fit? Message me and we'll figure it out.</p>
     </div>
 
@@ -689,6 +756,21 @@
         </ul>
         <a href="#contact" class="btn btn-ghost-paper">Request a design</a>
       </div>
+
+      <div class="price-card reveal">
+        <span class="price-num">004 / WEB APP</span>
+        <h3>Web App</h3>
+        <p class="sub">A working tool, not just a site</p>
+        <div class="amount">from R4,500</div>
+        <p class="range">Most web apps land between R4,500 and R12,000, depending on scope and integrations.</p>
+        <ul>
+          <li>Multi-user logins, up to 5 seats</li>
+          <li>Customer CRM to track leads &amp; clients</li>
+          <li>Scoped, designed and deployed end-to-end</li>
+          <li>Source code handed over</li>
+        </ul>
+        <a href="#contact" class="btn btn-ghost-paper">Scope a web app</a>
+      </div>
     </div>
   </div>
 </section>
@@ -698,7 +780,7 @@
   <div class="wrap">
     <div class="section-head">
       <p class="eyebrow">How it works</p>
-      <h2>Three steps from idea to delivered.</h2>
+      <h2 class="curtain"><span class="curtain-inner">Three steps from idea to delivered.</span></h2>
     </div>
     <div class="proc-grid">
       <div class="proc-item reveal">
@@ -725,7 +807,7 @@
   <div class="wrap">
     <div class="section-head">
       <p class="eyebrow">FAQ</p>
-      <h2>Questions, answered.</h2>
+      <h2 class="curtain"><span class="curtain-inner">Questions, answered.</span></h2>
     </div>
     <div class="faq-list">
       <div class="faq-item">
@@ -754,7 +836,7 @@
     <div class="contact-grid">
       <div>
         <p class="eyebrow">Start a project</p>
-        <h2 style="font-size:clamp(26px,3.4vw,36px);font-weight:800;margin-top:14px;line-height:1.15;">Tell me what you're trying to build.</h2>
+        <h2 class="curtain" style="font-family:var(--serif);font-weight:500;font-size:clamp(28px,3.6vw,40px);margin-top:14px;line-height:1.1;"><span class="curtain-inner">Tell me what you're trying to build.</span></h2>
         <p style="color:var(--slate);margin-top:14px;max-width:380px;">Based in Cape Town, working with clients across South Africa, Zimbabwe and remote. Send a few details, or message me directly.</p>
         <div class="contact-links">
           <a href="https://wa.me/27750969648?text=Hi%20Adonis%2C%20I%27d%20like%20to%20talk%20about%20a%20project." target="_blank" rel="noopener">WhatsApp — 075 096 9648</a>
@@ -835,6 +917,36 @@
   } else {
     revealEls.forEach(el => el.classList.add('in'));
   }
+
+  // curtain reveal for section headings, triggered as each scrolls into view
+  const curtainEls = document.querySelectorAll('.curtain:not(#heroHeadline)');
+  if('IntersectionObserver' in window){
+    const curtainIo = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); curtainIo.unobserve(e.target); } });
+    }, { threshold: 0.4 });
+    curtainEls.forEach(el => curtainIo.observe(el));
+  } else {
+    curtainEls.forEach(el => el.classList.add('in'));
+  }
+
+  // hero headline reveals once, on load, as the page's one orchestrated entrance
+  window.addEventListener('load', () => {
+    requestAnimationFrame(() => {
+      const hero = document.getElementById('heroHeadline');
+      if(hero) hero.classList.add('in');
+    });
+  });
+
+  // thin scroll-progress bar along the top of the viewport
+  const scrollbar = document.getElementById('scrollbar');
+  function updateScrollbar(){
+    const doc = document.documentElement;
+    const max = doc.scrollHeight - doc.clientHeight;
+    const pct = max > 0 ? (doc.scrollTop / max) * 100 : 0;
+    scrollbar.style.width = pct + '%';
+  }
+  window.addEventListener('scroll', updateScrollbar, { passive: true });
+  updateScrollbar();
 
   // contact form -> mailto
   const form = document.getElementById('enquiryForm');
