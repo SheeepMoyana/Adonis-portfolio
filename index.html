@@ -976,7 +976,7 @@ ${details}`
   const heroSection = document.getElementById('hero');
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  if(bpCard && heroSection && !reduceMotion){
+  if(bpCard && heroSection){
     let targetRotX = 0, targetRotY = 0;
     let currentRotX = 0, currentRotY = 0;
     let hovering = false;
